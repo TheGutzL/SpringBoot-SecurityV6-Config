@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.controller.dto.AuthCreateUserRequest;
 import com.app.controller.dto.AuthLoginRequest;
 import com.app.controller.dto.AuthResponse;
 import com.app.service.UserDetailServiceImpl;
@@ -20,6 +21,11 @@ public class AuthenticationController {
 
     @Autowired
     private UserDetailServiceImpl userDetailsService;
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<AuthResponse> register(@RequestBody @Valid AuthCreateUserRequest authCreateUser) {
+        return new ResponseEntity<>(this.userDetailsService.createUser(authCreateUser), HttpStatus.CREATED);
+    }
 
     @PostMapping("/log-in")
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthLoginRequest userRequest) {
